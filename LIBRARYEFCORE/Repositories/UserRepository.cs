@@ -58,5 +58,15 @@ namespace LIBRARYEFCORE.Repositories
         {
             return _context.Users.Count(u => u.Gender == gender);
         }
+
+        public bool Passcode(string passcode)
+        {
+           return _context.Users.Any(passc => passc.Passcode == passcode);
+        }
+
+        public User GetByPass(string passcode)
+        {
+            return _context.Users.FirstOrDefault(u => u.Passcode == passcode);
+        }
     }
 }

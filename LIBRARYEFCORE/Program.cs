@@ -221,9 +221,10 @@ namespace LIBRARYEFCORE
             string passcode = Console.ReadLine();
 
             var userRepo = new UserRepository(context);
-            var user = userRepo.GetByName(passcode);
+            var user = userRepo.GetByPass(passcode);
+            var pass = userRepo.Passcode(passcode);
 
-            if (user != null)
+            if (pass != null)
             {
                 Console.WriteLine("Welcome User!");
 
