@@ -18,6 +18,7 @@ namespace LIBRARYEFCORE.Models
         public int BorrowedCopies { get; set; }
         public decimal CopyPrice { get; set; }
         public int AllowedBorrowingPeriod { get; set; }
+
         [ForeignKey(nameof(Category))]
         public int CID { get; set; }
         public Category Category { get; set; }
