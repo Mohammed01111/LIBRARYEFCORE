@@ -21,6 +21,7 @@ namespace LIBRARYEFCORE
 
             while (!exit)
             {
+                Console.WriteLine("==== Wellcome To Online Library ====");
                 Console.WriteLine("1. Admin Mode");
                 Console.WriteLine("2. User Mode");
                 Console.WriteLine("3. Registration");
