@@ -234,7 +234,7 @@ namespace LIBRARYEFCORE
 
             if (user != null && user.Passcode == passcode) 
             {
-                Console.WriteLine("Welcome User!");
+                Console.WriteLine("Welcome "+ Uname);
 
                 bool userExit = false;
                 while (!userExit)
