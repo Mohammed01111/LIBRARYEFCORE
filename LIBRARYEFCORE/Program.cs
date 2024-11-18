@@ -349,7 +349,7 @@ namespace LIBRARYEFCORE
 
             if (book != null)
             {
-                // Find the borrowing record for this book and user
+                
                 var borrowing = borrowingRepo.GetByBookIdAndUserId(book.BID, user.UID);
 
                 if (borrowing != null && !borrowing.IsReturned)
@@ -362,7 +362,7 @@ namespace LIBRARYEFCORE
                     }
 
                     // Mark the book as returned
-                    borrowingRepo.ReturnBook(borrowing.BorrowingId, DateTime.Now, rating);
+                    borrowingRepo.ReturnBook(borrowing.BorID, DateTime.Now, rating);
 
                     // Update book's borrowed copies
                     book.BorrowedCopies--;
@@ -381,6 +381,6 @@ namespace LIBRARYEFCORE
             }
         }
     }
-    }
+    
 }
 
