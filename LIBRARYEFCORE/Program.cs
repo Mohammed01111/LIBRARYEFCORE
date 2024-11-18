@@ -308,6 +308,22 @@ namespace LIBRARYEFCORE
             var bookRepo = new BookRepository(context);
             var borrowingRepo = new BorrowingRepository(context);
 
+            Console.WriteLine("Available Books:");
+            var availableBooks = bookRepo.GetAvailableBooks(); // Fetch books with copies available
+            if (availableBooks.Any())
+            {
+                foreach (var availableBook in availableBooks)
+                {
+                    Console.WriteLine($"- {availableBook.BName} (Available Copies: {availableBook.TotalCopies - availableBook.BorrowedCopies})");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No books are currently available for borrowing.");
+                return;
+            }
+
+
             Console.WriteLine("Enter Book Name to borrow:");
             string bookName = Console.ReadLine();
 

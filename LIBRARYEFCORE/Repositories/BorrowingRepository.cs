@@ -35,7 +35,12 @@ namespace LIBRARYEFCORE.Repositories
         {
             return _context.Borrowings.FirstOrDefault(b => b.BookId == bookId && b.UserId == userId && !b.IsReturned);
         }
-
+        public IEnumerable<Book> GetAvailableBooks()
+        {
+            return _context.Books
+                .Where(b => b.TotalCopies > b.BorrowedCopies)
+                .ToList();
+        }
         public void Insert(Borrowing borrowing)
         {
             _context.Borrowings.Add(borrowing);
