@@ -27,6 +27,10 @@ namespace LIBRARYEFCORE.Repositories
             return _context.Borrowings.Include(b => b.User).Include(b => b.Book)
                                       .FirstOrDefault(b => b.BorID == id);
         }
+        public Book GetByName(string name)
+        {
+            return _context.Books.FirstOrDefault(b => b.BName.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
 
         public void Insert(Borrowing borrowing)
         {
