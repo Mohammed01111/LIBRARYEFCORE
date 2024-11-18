@@ -88,6 +88,12 @@ namespace LIBRARYEFCORE.Repositories
         {
             return _context.Books.Max(b => b.CopyPrice);
         }
+        public IEnumerable<Book> GetAvailableBooks()
+        {
+            return _context.Books
+                .Where(b => b.TotalCopies > b.BorrowedCopies)
+                .ToList();
+        }
 
         public int GetTotalBorrowedBooks()
         {
