@@ -308,17 +308,17 @@ namespace LIBRARYEFCORE
             var bookRepo = new BookRepository(context);
             var borrowingRepo = new BorrowingRepository(context);
 
-            Console.WriteLine("Enter Book ID to borrow:");
-            int bookId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter Book Name to borrow:");
+            string bookName = Console.ReadLine();
 
-            var book = bookRepo.GetById(bookId);
+            var book = bookRepo.GetByName(bookName);
 
             if (book != null && book.TotalCopies - book.BorrowedCopies > 0)
             {
                 var borrowing = new Borrowing
                 {
                     UserId = user.UID,
-                    BookId = bookId,
+                    BookId = book.BID,
                     BorrowingDate = DateTime.Now,
                     PredictedReturnDate = DateTime.Now.AddDays(book.AllowedBorrowingPeriod),
                     IsReturned = false
