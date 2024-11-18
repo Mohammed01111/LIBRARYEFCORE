@@ -63,7 +63,8 @@ namespace LIBRARYEFCORE
 
             if (admin != null && admin.Password == password)
             {
-                Console.WriteLine("Welcome Admin!");
+                Console.WriteLine();
+                Console.WriteLine("Welcome "+admin.AName);
 
                 bool adminExit = false;
                 while (!adminExit)
@@ -120,6 +121,7 @@ namespace LIBRARYEFCORE
             var bookRepo = new BookRepository(context);
             var categoryRepo = new CategoryRepository(context);
 
+            Console.WriteLine();
             Console.WriteLine("Enter Book Name:");
             string name = Console.ReadLine();
 
@@ -169,6 +171,7 @@ namespace LIBRARYEFCORE
         {
             var bookRepo = new BookRepository(context);
 
+            Console.WriteLine();
             Console.WriteLine("Enter Book ID to update:");
             int bookId = int.Parse(Console.ReadLine());
 
@@ -205,6 +208,7 @@ namespace LIBRARYEFCORE
         {
             var bookRepo = new BookRepository(context);
 
+            Console.WriteLine();
             Console.WriteLine("Enter Book ID to delete:");
             int bookId = int.Parse(Console.ReadLine());
 
@@ -224,6 +228,7 @@ namespace LIBRARYEFCORE
         // User Mode
         public static void UserMode(ApplicationDbContext context)
         {
+            Console.WriteLine();
             Console.WriteLine("Enter User Name:");
             string Uname = Console.ReadLine();
             Console.WriteLine("Enter Passcode:");
@@ -272,6 +277,7 @@ namespace LIBRARYEFCORE
         }
         static void Registration(UserRepository userRepository)
         {
+            Console.WriteLine();
             Console.WriteLine("\n=== User Registration ===");
 
             Console.Write("Enter Username: ");
@@ -309,6 +315,7 @@ namespace LIBRARYEFCORE
             var bookRepo = new BookRepository(context);
             var borrowingRepo = new BorrowingRepository(context);
 
+            Console.WriteLine();
             Console.WriteLine("Available Books:");
             var availableBooks = bookRepo.GetAvailableBooks(); // Fetch books with copies available
             if (availableBooks.Any())
@@ -381,7 +388,7 @@ namespace LIBRARYEFCORE
                     // Mark the book as returned
                     borrowingRepo.ReturnBook(borrowing.BorID, DateTime.Now, rating);
 
-                    // Update book's borrowed copies
+                    
                     book.BorrowedCopies--;
                     context.SaveChanges();
 
