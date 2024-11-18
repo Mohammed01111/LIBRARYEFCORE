@@ -31,6 +31,10 @@ namespace LIBRARYEFCORE.Repositories
         {
             return _context.Books.FirstOrDefault(b => b.BName.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
+        public Borrowing GetByBookIdAndUserId(int bookId, int userId)
+        {
+            return _context.Borrowings.FirstOrDefault(b => b.BookId == bookId && b.UserId == userId && !b.IsReturned);
+        }
 
         public void Insert(Borrowing borrowing)
         {

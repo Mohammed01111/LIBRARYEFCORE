@@ -340,25 +340,47 @@ namespace LIBRARYEFCORE
         public static void ReturnBook(ApplicationDbContext context, User user)
         {
             var borrowingRepo = new BorrowingRepository(context);
+            var bookRepo = new BookRepository(context);
 
-            Console.WriteLine("Enter Borrowing ID to return:");
-            int borrowingId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter Book Name to return:");
+            string bookName = Console.ReadLine();
 
-            var borrowing = borrowingRepo.GetById(borrowingId);
+            var book = bookRepo.GetByName(bookName);
 
-            if (borrowing != null && borrowing.UserId == user.UID && !borrowing.IsReturned)
+            if (book != null)
             {
-                Console.WriteLine("Enter Rating (1 to 5):");
-                int rating = int.Parse(Console.ReadLine());
+                // Find the borrowing record for this book and user
+                var borrowing = borrowingRepo.GetByBookIdAndUserId(book.BID, user.UID);
 
-                borrowingRepo.ReturnBook(borrowingId, DateTime.Now, rating);
-                Console.WriteLine("Book returned successfully!");
+                if (borrowing != null && !borrowing.IsReturned)
+                {
+                    Console.WriteLine("Enter Rating (1 to 5):");
+                    int rating;
+                    while (!int.TryParse(Console.ReadLine(), out rating) || rating < 1 || rating > 5)
+                    {
+                        Console.WriteLine("Invalid rating. Please enter a number between 1 and 5:");
+                    }
+
+                    // Mark the book as returned
+                    borrowingRepo.ReturnBook(borrowing.BorrowingId, DateTime.Now, rating);
+
+                    // Update book's borrowed copies
+                    book.BorrowedCopies--;
+                    context.SaveChanges();
+
+                    Console.WriteLine("Book returned successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("No active borrowing record found for this book.");
+                }
             }
             else
             {
-                Console.WriteLine("Invalid borrowing ID or the book is already returned.");
+                Console.WriteLine("Book with the given name not found.");
             }
         }
+    }
     }
 }
 
