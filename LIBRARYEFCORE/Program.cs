@@ -16,13 +16,16 @@ namespace LIBRARYEFCORE
         static void Main(string[] args)
         {
             ApplicationDbContext context = new ApplicationDbContext();
+            UserRepository userRepository = new UserRepository(context);
             bool exit = false;
 
             while (!exit)
             {
                 Console.WriteLine("1. Admin Mode");
                 Console.WriteLine("2. User Mode");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Registration");
+                Console.WriteLine("4. Exit");
+                Console.Write("Choose an option: ");
                 var choice = Console.ReadLine();
 
                 switch (choice)
@@ -34,6 +37,9 @@ namespace LIBRARYEFCORE
                         UserMode(context);
                         break;
                     case "3":
+                        Registration(userRepository);
+                        break;
+                    case "4":
                         exit = true;
                         break;
                     default:
@@ -217,14 +223,15 @@ namespace LIBRARYEFCORE
         // User Mode
         public static void UserMode(ApplicationDbContext context)
         {
-            Console.WriteLine("Enter User Passcode:");
+            Console.WriteLine("Enter User Name:");
+            string Uname = Console.ReadLine();
+            Console.WriteLine("Enter Passcode:");
             string passcode = Console.ReadLine();
 
             var userRepo = new UserRepository(context);
-            var user = userRepo.GetByPass(passcode);
-            var pass = userRepo.Passcode(passcode);
+            var user = userRepo.GetByName(Uname); 
 
-            if (pass != null)
+            if (user != null && user.Passcode == passcode) 
             {
                 Console.WriteLine("Welcome User!");
 
@@ -259,8 +266,40 @@ namespace LIBRARYEFCORE
             }
             else
             {
-                Console.WriteLine("Invalid passcode.");
+                Console.WriteLine("Invalid username or passcode.");
             }
+        }
+        static void Registration(UserRepository userRepository)
+        {
+            Console.WriteLine("\n=== User Registration ===");
+
+            Console.Write("Enter Username: ");
+            string userName = Console.ReadLine();
+
+            Console.Write("Enter Gender: ");
+            string gender = Console.ReadLine();
+
+            Console.Write("Enter Passcode: ");
+            string passcode = Console.ReadLine();
+
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(gender) || string.IsNullOrWhiteSpace(passcode))
+            {
+                Console.WriteLine("Error: All fields are required.\n");
+                return;
+            }
+
+            
+            User newUser = new User
+            {
+                UName = userName,
+                Gender = gender,
+                Passcode = passcode
+            };
+
+            
+            string result = userRepository.RegisterUser(newUser);
+            Console.WriteLine($"{result}\n");
         }
 
         // User Actions

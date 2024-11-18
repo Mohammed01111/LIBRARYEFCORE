@@ -63,6 +63,25 @@ namespace LIBRARYEFCORE.Repositories
         {
            return _context.Users.Any(passc => passc.Passcode == passcode);
         }
+        public string RegisterUser(User newUser)
+        {
+            
+            if (_context.Users.Any(u => u.UName == newUser.UName))
+            {
+                return "Error: Username already exists. Please choose a different username.";
+            }
+
+            
+            if (_context.Users.Any(u => u.Passcode == newUser.Passcode))
+            {
+                return "Error: Passcode already in use. Please choose a different passcode.";
+            }
+
+            // Add and save the new user
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+            return "Registration successful!";
+        }
 
         public User GetByPass(string passcode)
         {
